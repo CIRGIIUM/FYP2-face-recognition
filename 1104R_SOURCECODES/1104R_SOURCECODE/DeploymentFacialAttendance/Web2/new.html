@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/004/303/373/original/gradient-islamic-pattern-background-vector.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        #header {
+            padding: 100px;
+        }
+
+        h1 {
+            position: absolute;
+            left: 125px;
+            top: 37px;
+        }
+
+        .logo {
+            max-width: 80px;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+
+        .logo img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #datetime {
+            font-size: 18px;
+            margin-top: 10px;
+
+        }
+
+        .table-container {
+            width: 35%;
+            height: 90%;
+            position: absolute;
+            top: 120px;
+            right: 30px;
+        }
+
+        .table2-container {
+            width: 80%;
+            height: 90%;
+            position: absolute;
+            top: 120px;
+            left: 30px;
+        }
+
+        .attendance-table-container {
+            background-color: #00928F;
+            height: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .attendance-table-container h2 {
+            color: white;
+        }
+
+        .attendance-table {
+            width: 100%;
+            height: 70%;
+            border-collapse: collapse;
+        }
+
+        .attendance-table th,
+        .attendance-table td {
+            border: 1px solid #ddd;
+            padding: 2px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .attendance-table th {
+            font-size: 18px;
+            color: #00928F;
+        }
+
+        table.attendance-table {
+            width: 100%;
+            height: 80%;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table.attendance-table thead {
+            background-color: #fff;
+        }
+
+        table.attendance-table th {
+            text-align: left;
+            padding: 8px;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table.attendance-table tbody {
+            max-height: 300px;
+            overflow-y: auto;
+            display: block;
+        }
+
+        table.attendance-table tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-left: none;
+            border-right: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table.attendance-table td {
+            text-align: left;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 8px;
+            border-left: none;
+            border-right: none;
+        }
+
+        #save-button {
+            background-color: #00928F;
+            /* Change the button color */
+            color: white;
+            border: transparent;
+            padding: 4px 70px;
+            /* Increase the padding for a larger button */
+            font-size: 20px;
+            /* Increase the font size */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            border-radius: 16px;
+            position: absolute;
+            left: 55%;
+            /* Adjust the left property to move the button to the right */
+            top: 90%;
+            transform: translate(-50%, -50%);
+        }
+
+        #save-button:hover {
+            background-color: #03403e;
+        }
+
+        #video-container {
+            top: 20px;
+            left: 30px;
+            position: relative;
+            width: 150%;
+            /* Adjust the width of the video container */
+            height: 20%
+        }
+
+        #video-feed {
+            border-style: double;
+            width: 40%;
+            /* Make the video fill the container */
+            height: 20%;
+            border: 2px solid #333;
+            /* Add a border for visualization */
+        }
+
+        #recognized-info {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 18px;
+            color: #00928F;
+        }
+
+       table.attendance-table td.date,
+       table.attendance-table td.time {
+          text-align: center;
+       }
+
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <div class="logo">
+            <img src="https://seeklogo.com/images/I/international-islamic-university-malaysia-logo-221DAA8603-seeklogo.com.png">
+        </div>
+        <h1>Facial Recognition Attendance System</h1>
+        <div id="recognized-info"></div>
+        <div id="video-container">
+            <img src="{{ url_for('video_feed') }}" alt="Video Feed" id="video-feed">
+        </div>
+        <div id="container">
+            <div class="table2-container">
+                <div class="facial-table-container">
+                </div>
+            </div>
+            <div class="table-container">
+                <div class="attendance-table-container">
+                    <h2>Attendance Report</h2>
+                    <table class="attendance-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-data"></tbody>
+                    </table>
+                </div>
+                <button id="save-button" class="save-button"onclick="saveAttendance()">Save</button>
+            </div>
+        </div>
+
+<script>
+
+        const uniqueNames = new Set();
+
+        function updateTable() {
+            fetch('/get_detected_names')
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('attendance-data');
+
+                    data.names.forEach(nameInfo => {
+                        if (!uniqueNames.has(nameInfo.name)) {
+                            const row = table.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            const cell3 = row.insertCell(2);
+                            cell1.innerHTML = nameInfo.name;
+                            cell2.innerHTML = nameInfo.date || '';  
+                            cell3.innerHTML = nameInfo.time || ''; 
+                            uniqueNames.add(nameInfo.name);  
+                        }
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+
+            setTimeout(updateTable, 1000);
+        }
+
+        function saveAttendance() {
+            fetch('/save_attendance')
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        window.onload = function () {
+            updateTable();
+        };
+
+      function saveAttendance() {
+        fetch('/save_attendance')
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                window.location.href = '/home';
+            })
+            .catch(error => console.error('Error:', error));
+    }
+   </script>
+</body>
+
+</html>

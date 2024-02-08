@@ -1,0 +1,39 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyBpkja4TcU5RwY0G3LydwuiQnM2VnGE5xo",
+  authDomain: "facial-recognition-syste-3cd36.firebaseapp.com",
+  databaseURL: "https://facial-recognition-syste-3cd36-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "facial-recognition-syste-3cd36",
+  storageBucket: "facial-recognition-syste-3cd36.appspot.com",
+  messagingSenderId: "292094994123",
+  appId: "1:292094994123:web:eb6ffff5e799012a0b1d4e",
+  measurementId: "G-0L4E7VW120"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+var registerFormDB = firebase.database().ref("user-form");
+document.getElementById("user-form").addEventListener("submit",submitForm)
+
+function submitForm(e){
+  e.preventDefault();
+  var Name = getElementVal('Name');
+  var ID = getElementVal ("ID");
+  console.log(Name, ID);
+}
+
+const saveMessages = (Name, ID) => {
+  var newUserForm = registerFormDB.push();
+        newUserForm.set({
+        Name: Name,
+        ID : ID
+        });
+}
+
+}
+
+
+const getElementVal = (id) => {
+    return document.getElementById(id).value;
+
+}
+
