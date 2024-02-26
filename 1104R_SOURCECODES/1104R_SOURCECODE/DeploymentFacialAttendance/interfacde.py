@@ -13,7 +13,8 @@ captured_images_count = 0
 
 face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 recognizer = cv2.face.LBPHFaceRecognizer_create()
-recognizer.read("trainz.yml")
+
+recognizer.read("haarcascade_frontalface_default.xml")
 
 with open("labels.pickles", "rb") as f:
     og_labels = pickle.load(f)
