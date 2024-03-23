@@ -79,6 +79,11 @@ def gen_frames():
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
+# Define route for the root URL
+@app.route('/')
+def root():
+    return render_template("home.html")
+
 @app.route('/home', methods=["GET"])
 def home():
     try:
